@@ -31,6 +31,7 @@ io.on('connection', function (socket) {
 		text:message.text,
 		createdAt: new Date().getTime()
 	});
+	
   });
   
 socket.on('disconnect', () =>{
