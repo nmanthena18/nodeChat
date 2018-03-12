@@ -12,7 +12,7 @@ const http = require('http');
 var index = require('./routes/index');
 var users = require('./routes/users');
 
-
+var port = process.evn.PORT || 3000;
 
 var io = require('socket.io')(server);
 
@@ -21,6 +21,12 @@ io.on('connection', function (socket) {
   socket.on('createMessage', function(message){
 	console.log(message);
 	io.emit('newMessage', {
+		from:message.from,
+		text:message.text,
+		createdAt: new Date().getTime()
+	});
+	
+	socket.broadcast.emit('newMessage',{
 		from:message.from,
 		text:message.text,
 		createdAt: new Date().getTime()
@@ -63,8 +69,8 @@ app.use(function(err, req, res, next) {
   res.render('error');
 });
 
-server.listen(3000, () =>{
-	console.log('app running at 3000');
+server.listen(port, () =>{
+	console.log('app running at'+ port);
 });
 
 module.exports = app;
