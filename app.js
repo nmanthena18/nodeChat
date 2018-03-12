@@ -11,7 +11,7 @@ const http = require('http');
 var index = require('./routes/index');
 var users = require('./routes/users');
 
-var port = process.evn.PORT || 3000;
+var port = process.env.PORT || 3000;
 
 var io = require('socket.io')(server);
 
