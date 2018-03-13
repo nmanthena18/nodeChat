@@ -6,10 +6,11 @@ module.exports = {
 			createdAt: new Date().getTime()
 		}
 	},
-	shareLocation : function(latitude, longitude){
+	shareLocation : function(user, location){
 		return {
-			latitude,
-			longitude,
+			user,
+			latitude:location.latitude,
+			longitude:location.longitude,
 			createdAt: new Date().getTime()
 		}
 	}

@@ -30,7 +30,8 @@ io.on('connection', function (socket) {
 	});
 	
 	socket.on('createLocation', function(location, callback){
-		io.emit('printLocation', gM.shareLocation(location.latitude, location.longitude));
+		console.log(location, 555)
+		io.emit('printLocation', gM.shareLocation("User ", location));
 		callback('Ob created')
 	});
 	
