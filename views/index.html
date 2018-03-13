@@ -1,13 +1,23 @@
+<!doctype html>
+<html>
+	<head>
+		<title>Node chat App</title>
+	<head>
+	<body>
+		<h1>Welcome to chating App </h1>
+		<ol id="messages"></ol>
+		<form id="message-form">
+			<p><input type="text" name="name" placeholder="Please enter your name" /> </p>
+			<p><textarea name="body" placeholder="Please enter message"></textarea></p>
+			
+			<button>Send</button>
+		</form>
+	</body>
+	<script src="socket.io/socket.io.js"></script>
+	<script
+  src="https://code.jquery.com/jquery-3.3.1.min.js"
+  integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+  crossorigin="anonymous"></script>
+  <script src="javascripts/chat.js"></script>
 
-<script src="../socket.io/socket.io.js"></script>
-<script>
-  var socket = io();
-  socket.on('connect', function () {
-    console.log("connected");
-  });
-  
-  socket.on("newMessage", function(data){
-	console.log("newMessage", data)
-  });
-</script>
-Hello world
+</html>

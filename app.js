@@ -12,28 +12,24 @@ var index = require('./routes/index');
 var users = require('./routes/users');
 
 var port = process.env.PORT || 3000;
-
 var io = require('socket.io')(server);
+
+var gM = require('./utils/message');
+
 
 io.on('connection', function (socket) {
 
-  socket.on('createMessage', function(message){
-	console.log(message);
-	io.emit('newMessage', {
-		from:message.from,
-		text:message.text,
-		createdAt: new Date().getTime()
+	console.log("IO connection started");
+	socket.emit('newMessage', gM.generateMessage('Admin: ', 'Welcome to chat app'));
+	socket.broadcast.emit('newMessage', gM.generateMessage('Naresh', 'New user joined'));
+	
+	socket.on('createMessage', function(message, callback){
+		io.emit('newMessage', gM.generateMessage(message.name, message.body));
+		callback('Ob created')
 	});
 	
-	socket.broadcast.emit('newMessage',{
-		from:message.from,
-		text:message.text,
-		createdAt: new Date().getTime()
-	});
-	
-  });
   
-socket.on('disconnect', () =>{
+  socket.on('disconnect', () =>{
 	console.log("Server disconnected");
   });
   
@@ -48,8 +44,9 @@ socket.on('disconnect', () =>{
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 
-app.use(express.static(path.join(__dirname, 'views')));
 
+app.use(express.static(path.join(__dirname, 'views')));
+app.use(express.static('public'))
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
