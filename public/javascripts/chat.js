@@ -4,7 +4,7 @@
   });
   
   socket.on("newMessage", function(data){
-	var li = $("<li>"+data.name +": "+data.body+"</li>");
+	var li = $("<li class='list-group-item'>"+data.name +": "+data.body+"</li>");
 	$('#messages').prepend(li);
   });
 	$('#message-form').on('submit', function(e){
@@ -36,6 +36,6 @@
 	});
 	
   socket.on("printLocation", function(data){
-	$("#userLocation").html("<a href='https://www.google.com/maps?q="+data.latitude+','+ data.longitude+"' target='_blank'> Show Location</a>");
+	$("#userLocation").html("<div class='alert alert-success'><a href='https://www.google.com/maps?q="+data.latitude+','+ data.longitude+"' target='_blank'> Show Location</a></div>");
   });
 	
