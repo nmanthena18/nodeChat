@@ -17,6 +17,7 @@ var io = require('socket.io')(server);
 var gM = require('./utils/message');
 
 
+
 io.on('connection', function (socket) {
 
 	console.log("IO connection started");
@@ -25,6 +26,11 @@ io.on('connection', function (socket) {
 	
 	socket.on('createMessage', function(message, callback){
 		io.emit('newMessage', gM.generateMessage(message.name, message.body));
+		callback('Ob created')
+	});
+	
+	socket.on('createLocation', function(location, callback){
+		io.emit('printLocation', gM.shareLocation(location.latitude, location.longitude));
 		callback('Ob created')
 	});
 	
