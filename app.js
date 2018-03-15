@@ -22,12 +22,17 @@ var users = new Users();
 io.on('connection', function (socket) {
 	
 	socket.on('createMessage', function(message, callback){
-		io.emit('newMessage', gM.generateMessage(message.name, message.body));
+		var user = users.getUser(socket.id);
+		if(user && validators.isString(message.body)){
+			io.to(user.room).emit('newMessage', gM.generateMessage(message.name, message.body));
+		}
 		callback('Ob created')
+
 	});
 	
 	socket.on('createLocation', function(location, callback){
-		io.emit('printLocation', gM.shareLocation("User ", location));
+		var user = users.getUser(socket.id)
+		if(user) io.to(user.room).emit('printLocation', gM.shareLocation(user.name, location));
 		callback('Ob created')
 	});  
 

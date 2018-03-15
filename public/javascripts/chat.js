@@ -49,7 +49,7 @@
 		e.preventDefault();
 		if($('input[name=name]').val() == '') return;		
 		socket.emit('createMessage',{
-			name:"User",
+			name: $.deparam(window.location.search).name,
 			body:$('input[name=name]').val()
 		}, function(){
 			$('input[name=name]').val('')
