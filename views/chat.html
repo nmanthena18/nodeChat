@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+		<title>Node chat App</title>
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+		<link rel="stylesheet" href="stylesheets/style.css">
+	<head>
+	<body>
+		<div class="container">
+			<div class="row">
+				<div class="col-md-12">
+					<h1>Welcome to chating App </h1>
+					<div class="row table-contaner">
+						<div class="col-md-3 onlineUsers">
+							<h4><span class="glyphicon glyphicon-user" aria-hidden="true"></span> Currently online users</h4>
+							<div class="onlineUsersList"></div>	
+						</div>
+						<div class="col-md-9">
+							<div id="messages" class="list-group"></div>
+							<form id="message-form" class="form-inline">
+								<div class="form-group messageInput">
+									<input type="text" class="form-control" name="name" placeholder="Please enter your name" autofocus autocomplete="off" />
+								</div>
+								<!--div class="form-group">
+									<textarea name="body" class="form-control" rows="3" placeholder="Please enter message"></textarea>
+								</div-->
+								<div class="form-group">
+								<button class="btn btn-primary">Send</button> <button id="send-location" type="button" class="btn btn-success">Send Location</button>
+								</div>
+							</form>
+						</div>
+					</div>			
+					
+				</div>
+			</div>
+		</div>
+	</body>
+	<script src="socket.io/socket.io.js"></script>
+	<script
+  src="https://code.jquery.com/jquery-3.3.1.min.js"
+  integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+  crossorigin="anonymous"></script>
+  <script src="javascripts/deparams.js"></script> 
+  <script src="javascripts/mustache.js"></script>
+  <script src="javascripts/chat.js"></script>
+  <script src="javascripts/moment.js"></script>   
+  <script id="message-template" type="x-tmpl-mustache">
+	<div class="each-msg form-inline">
+		<div class="input-group">
+			<div class="input-group-addon" style="border-left:solid 5px {{bg}}">{{name }} <span class="timestamp"> {{createdAt}}</span></div>			
+			<p class="msg-view">{{&body}}</p>
+		</div>
+	</div>
+  </script>
+
+</html>

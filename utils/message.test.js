@@ -13,10 +13,8 @@ describe('generateMessage', function(){
 	});
 	
 	it('should generate user location', function(){
-		var latitude = 17.385044;
-		var longitude = 78.486671
-		
-		var message = gM.shareLocation(latitude, longitude);
+		var location = {latitude:17.385044, longitude :78.486671};
+		var message = gM.shareLocation('user', location);
 		expect(message.createdAt).toBeA("number");
 		expect(message.latitude).toBeA("number");
 		expect(message.longitude).toBeA("number");

@@ -1,11 +1,49 @@
   var socket = io();
+ 
+  function scrollToBottom(){
+	var messageContainer = $('#messages');
+	var clientHeight = messageContainer.prop('clientHeight');
+	var scrollTop = messageContainer.prop('scrollTop');
+	var scrollHeight = messageContainer.prop('scrollHeight');
+	var newMessage = messageContainer.children('div.each-msg:last-child').innerHeight();
+	if(scrollHeight > clientHeight){
+		var scrollBottomGap = (scrollHeight-clientHeight);
+		messageContainer.scrollTop(scrollBottomGap)
+	}
+  }
+  
+	function getRandomColor() {
+	  var letters = '0123456789ABCDEF';
+	  var color = '#';
+	  for (var i = 0; i < 6; i++) {
+		color += letters[Math.floor(Math.random() * 16)];
+	  }
+	  return color;
+	}
+  
   socket.on('connect', function () {
-    console.log("connected");
+    var qs = $.deparam(window.location.search);
+	socket.emit('join', qs, function(err){
+		if(err){
+			alert(err);
+			window.location.href="/";
+		}else{
+		
+		}
+	})
   });
   
   socket.on("newMessage", function(data){
-	var li = $("<li>"+data.name +": "+data.body+"</li>");
-	$('#messages').prepend(li);
+	var formattedTime = moment(data.createdAt).format('h:mm a');
+	var template = $('#message-template').html();
+	var html = Mustache.render(template, {
+		name:data.name,
+		createdAt:formattedTime,
+		body:data.body,
+		bg:getRandomColor()
+	});
+	$('#messages').append(html);
+	scrollToBottom();
   });
 	$('#message-form').on('submit', function(e){
 		e.preventDefault();
@@ -39,7 +77,25 @@
 	});
 	
   socket.on("printLocation", function(data){
-	var li = $("<li>"+data.user+": <a href='https://www.google.com/maps?q="+data.latitude+','+ data.longitude+"' target='_blank'> My current location</a></li>")
-	$('#messages').prepend(li);
+  var formattedTime = moment(data.createdAt).format('h:mm a');
+	var location = "<a href='https://www.google.com/maps?q="+data.latitude+','+ data.longitude+"' target='_blank'> My current location</a>"
+	var formattedTime = moment(data.createdAt).format('h:mm a');
+	var template = $('#message-template').html();
+	var html = Mustache.render(template, {
+		name:data.user,
+		createdAt:formattedTime,
+		body:location,
+		bg:getRandomColor()
+	})
+	$('#messages').append(html);
+	scrollToBottom();
+  });
+  
+  socket.on('updateUsersList', function(users){
+	var ol = $("<ol class='usersList'></ol>");
+	users.forEach(function (user) {
+		ol.append("<li>"+user+"</li>");
+	});
+	$('.onlineUsersList').html(ol);
   });
 	

@@ -1,9 +1,10 @@
+var moment = require('moment');
 module.exports = {
 	generateMessage : function(name, body){
 		return {
 			name,
 			body,
-			createdAt: new Date().getTime()
+			createdAt: moment().valueOf()
 		}
 	},
 	shareLocation : function(user, location){
@@ -11,7 +12,7 @@ module.exports = {
 			user,
 			latitude:location.latitude,
 			longitude:location.longitude,
-			createdAt: new Date().getTime()
+			createdAt: moment().valueOf()
 		}
 	}
 }

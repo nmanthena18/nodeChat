@@ -1,28 +1,25 @@
 var express = require('express');
 var path = require('path');
-var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
-
 const http = require('http');
  const app = express();	
  const server = http.createServer(app)
 
 var index = require('./routes/index');
-var users = require('./routes/users');
 
 var port = process.env.PORT || 3000;
 var io = require('socket.io')(server);
 
 var gM = require('./utils/message');
+var validators = require('./utils/validators');
 
+var Users = require('./utils/users').Users;
+
+var users = new Users();
 
 
 io.on('connection', function (socket) {
-
-	console.log("IO connection started");
-	socket.emit('newMessage', gM.generateMessage('Admin: ', 'Welcome to chat app'));
-	socket.broadcast.emit('newMessage', gM.generateMessage('Naresh', 'New user joined'));
 	
 	socket.on('createMessage', function(message, callback){
 		io.emit('newMessage', gM.generateMessage(message.name, message.body));
@@ -30,16 +27,31 @@ io.on('connection', function (socket) {
 	});
 	
 	socket.on('createLocation', function(location, callback){
-		console.log(location, 555)
 		io.emit('printLocation', gM.shareLocation("User ", location));
 		callback('Ob created')
-	});
-	
-  
-  socket.on('disconnect', () =>{
-	console.log("Server disconnected");
+	});  
+
+  socket.on('join', function (params, callback){
+	if(!validators.isString(params.name) && !validators.isString(params.room)){
+		return callback("Name and room is manditory");
+	}
+	socket.join(params.room);
+	users.removeUser(socket.id);
+	users.addUser(socket.id, params.name, params.room);
+	io.to(params.room).emit('updateUsersList', 	users.getUsersList(params.room));
+	socket.emit('newMessage', gM.generateMessage('Admin ', 'Welcome to chat app'));
+	socket.broadcast.to(params.room).emit('newMessage', gM.generateMessage('Naresh', 'New user joined'));
   });
   
+  socket.on('disconnect', () =>{
+	var user = users.removeUser(socket.id);
+	if(user){
+		io.to(user.room).emit('updateUsersList', 	users.getUsersList(user.room));
+		io.to(user.room).emit('newMessage', gM.generateMessage("Admin", user.name +' has left from the chat room'));
+	}
+  });  
+  
+	
 });
 
 

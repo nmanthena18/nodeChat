@@ -1,8 +1,60 @@
 body {
   padding: 50px;
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+background: #e2f3ff; /* Old browsers */
+background: -moz-linear-gradient(top, #e2f3ff 0%, #ffffff 35%); /* FF3.6-15 */
+background: -webkit-linear-gradient(top, #e2f3ff 0%,#ffffff 35%); /* Chrome10-25,Safari5.1-6 */
+background: linear-gradient(to bottom, #e2f3ff 0%,#ffffff 35%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#e2f3ff', endColorstr='#ffffff',GradientType=0 ); /* IE6-9 */background-repeat:no-repeat;
 }
 
 a {
   color: #00B7FF;
+}
+
+.messageInput{
+	width:73%;
+}
+.messageInput input{
+	width:100% !important;
+}
+.onlineUsers{
+	border:solid #eee 1px;
+	height:100%;
+	background:#eee;
+}
+.table-contaner {
+	display: table;
+	width:100%;
+}
+.table-contaner > div{
+	display: table-cell;
+	float:none;
+}
+.timestamp{
+	color:#999;
+}
+.display-inline{
+	display:inline-block;
+}
+#messages{
+	overflow-y:auto;
+	max-height:500px;
+}
+.each-msg{
+	margin-bottom:5px;
+}
+.msg-view{
+	display:table-cell;
+	padding:6px;
+	background:#fff;
+	border:solid #ccc 1px;
+	border-radius:0 3px 3px 0;
+}
+.usersList{padding:0; margin:0;}
+.usersList li{
+	background:#fff;
+	padding:5px; border-radius:3px;
+	margin-bottom:5px; border:solid #ccc 1px;
+	list-style-position: inside;
 }
