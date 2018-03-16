@@ -25,10 +25,10 @@
     var qs = $.deparam(window.location.search);
 	socket.emit('join', qs, function(err){
 		if(err){
-			alert(err);
+			alert(new Error(err));
 			window.location.href="/";
 		}else{
-		
+			
 		}
 	})
   });

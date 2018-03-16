@@ -5,7 +5,13 @@ class Users {
 
 	addUser (id, name, room){
 		var user = {id, name, room};
-		this.users.push(user);
+		var isUserExist = this.getUserByName(name, room);
+		if(!isUserExist){
+			this.users.push(user);
+		}else{
+			return false;
+		}
+		
 		return user;
 	}
 	
@@ -28,13 +34,19 @@ class Users {
 		return obj[0];
 	}
 	
+	getUserByName(name, room){
+		var uName = name.toLowerCase();
+		var username =  this.getUsersList(room).indexOf(uName);
+		return username > -1;
+	}
+	
 	getUsersList(room){
 		var users = this.users.filter( function(user){			
 			return user.room == room;
 		});
 		
 		var namesArray = users.map( function(u){
-			return u.name	
+			return u.name.toLowerCase();	
 		});
 		return namesArray 
 	}

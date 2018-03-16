@@ -36,13 +36,13 @@ io.on('connection', function (socket) {
 		callback('Ob created')
 	});  
 
-  socket.on('join', function (params, callback){
-	if(!validators.isString(params.name) && !validators.isString(params.room)){
-		return callback("Name and room is manditory");
-	}
+  socket.on('join', function (params, callback){	
 	socket.join(params.room);
 	users.removeUser(socket.id);
-	users.addUser(socket.id, params.name, params.room);
+	var isUser = users.addUser(socket.id, params.name, params.room);
+	if(!isUser){
+		return callback("Username already taken..!");
+	}
 	io.to(params.room).emit('updateUsersList', 	users.getUsersList(params.room));
 	socket.emit('newMessage', gM.generateMessage('Admin ', 'Welcome to chat app'));
 	socket.broadcast.to(params.room).emit('newMessage', gM.generateMessage('Naresh', 'New user joined'));
@@ -62,21 +62,22 @@ io.on('connection', function (socket) {
 
 // view engine setup
 //app.set('views', path.join(__dirname, 'views'));
-//app.engine('html', require('ejs').renderFile);
+app.engine('html', require('ejs').renderFile);
 //app.set('view engine', 'html');
 
+app.use(express.static(path.join(__dirname, 'views')));
+app.use(express.static('public'));
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 
 
-app.use(express.static(path.join(__dirname, 'views')));
-app.use(express.static('public'))
-
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
-  var err = new Error('Not Found');
-  err.status = 404;
-  next(err);
+	console.log(res.statusCode)
+	res.render("index.html");
+  //var err = new Error('Not Found');
+ // err.status = 404;
+  //next(err);
 });
 
 // error handler

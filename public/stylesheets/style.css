@@ -1,5 +1,4 @@
 body {
-  padding: 50px;
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
 background: #e2f3ff; /* Old browsers */
 background: -moz-linear-gradient(top, #e2f3ff 0%, #ffffff 35%); /* FF3.6-15 */
@@ -7,7 +6,9 @@ background: -webkit-linear-gradient(top, #e2f3ff 0%,#ffffff 35%); /* Chrome10-25
 background: linear-gradient(to bottom, #e2f3ff 0%,#ffffff 35%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
 filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#e2f3ff', endColorstr='#ffffff',GradientType=0 ); /* IE6-9 */background-repeat:no-repeat;
 }
-
+.container{
+	min-height:600px;
+}
 a {
   color: #00B7FF;
 }
